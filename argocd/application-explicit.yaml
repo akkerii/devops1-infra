@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: micro-services-explicit
+  namespace: argocd
+spec:
+  project: default
+  sources:
+    - repoURL: https://github.com/akkerii/devops1-infra.git
+      targetRevision: HEAD
+      path: infra/k8s
+      directory:
+        exclude: "*dockerhub-secret.yaml"
+    - repoURL: https://github.com/akkerii/devops1-infra.git
+      targetRevision: HEAD
+      path: infra/k8s/app
+    - repoURL: https://github.com/akkerii/devops1-infra.git
+      targetRevision: HEAD
+      path: infra/k8s/db
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: auth
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true 
