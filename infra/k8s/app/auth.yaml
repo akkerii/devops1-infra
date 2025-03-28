@@ -14,7 +14,8 @@ spec:
     spec:
       containers:
         - name: auth
-          image: akkeri/authentication:latest
+          # Using a public nginx image temporarily for testing
+          image: nginx:alpine
           ports:
             - containerPort: 3005
           envFrom:
