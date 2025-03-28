@@ -3,13 +3,13 @@ kind: Service
 metadata:
   name: auth-svc
   namespace: auth
-
+  labels:
+    app.kubernetes.io/instance: micro-services
 spec:
+  type: ClusterIP
   ports:
-    - port: 3005
-      targetPort: 3005
-      nodePort: 30005
-      protocol: TCP
-  type: NodePort
+  - port: 3005
+    targetPort: 3005
+    protocol: TCP
   selector:
     app: auth
