@@ -3,14 +3,16 @@ kind: Deployment
 metadata:
   name: auth-dep
   namespace: auth
-
 spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth
   template:
     metadata:
       name: auth
       labels:
         app: auth
-
     spec:
       containers:
         - name: auth
@@ -22,8 +24,5 @@ spec:
                 name: auth-cm
             - secretRef:
                 name: auth-secret
-
-  replicas: 1
-  selector:
-    matchLabels:
-      app: auth
+      imagePullSecrets:
+        - name: dockerhub-secret
