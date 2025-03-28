@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-dep
+  namespace: auth
+
+spec:
+  template:
+    metadata:
+      name: auth
+      labels:
+        app: auth
+
+    spec:
+      containers:
+        - name: auth
+          image: akkeri/authentication:latest
+          ports:
+            - containerPort: 3005
+          envFrom:
+            - configMapRef:
+                name: auth-cm
+            - secretRef:
+                name: auth-secret
+
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth

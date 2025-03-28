@@ -1,0 +1,26 @@
+apiVersion: skaffold/v4beta1
+kind: Config
+metadata:
+  name: micro2
+build:
+  artifacts:
+    - image: akkeri/authentication
+      context: .
+      docker:
+        dockerfile: Dockerfile
+  local:
+    push: false
+manifests:
+  rawYaml:
+    - infra/k8s/*.yaml
+    - infra/k8s/app/*.yaml
+    - infra/k8s/db/*.yaml
+
+deploy:
+  kubectl: {}
+portForward:
+  - resourceType: deployment
+    resourceName: auth-dep
+    namespace: auth
+    port: 3005
+    localPort: 3005

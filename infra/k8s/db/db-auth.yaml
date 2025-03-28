@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-auth
+  namespace: auth
+  labels:
+    db: auth-db
+
+spec:
+  template:
+    metadata:
+      name: auth-db
+      labels:
+        db: auth
+    spec:
+      containers:
+        - name: auth-db
+          image: mongo
+          ports:
+            - containerPort: 2717
+          envFrom:
+            - secretRef:
+                name: db-auth-secret
+
+  replicas: 1
+  selector:
+    matchLabels:
+      db: auth
