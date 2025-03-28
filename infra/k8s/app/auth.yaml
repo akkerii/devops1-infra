@@ -22,6 +22,8 @@ spec:
                 name: auth-cm
             - secretRef:
                 name: auth-secret
+      imagePullSecrets:
+        - name: dockerhub-secret
 
   replicas: 1
   selector:
