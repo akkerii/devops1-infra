@@ -8,9 +8,10 @@ spec:
   source:
     repoURL: https://github.com/akkerii/devops1-infra.git
     targetRevision: HEAD
-    path: infra/k8s
+    path: infra
     directory:
       exclude: "*dockerhub-secret.yaml"
+      recurse: true
   destination:
     server: https://kubernetes.default.svc
     namespace: auth
