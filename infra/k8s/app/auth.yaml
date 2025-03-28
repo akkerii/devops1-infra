@@ -14,8 +14,7 @@ spec:
     spec:
       containers:
         - name: auth
-          # Using a public nginx image temporarily for testing
-          image: nginx:alpine
+          image: akkeri/authentication:latest
           ports:
             - containerPort: 3005
           envFrom:
@@ -23,8 +22,6 @@ spec:
                 name: auth-cm
             - secretRef:
                 name: auth-secret
-      imagePullSecrets:
-        - name: dockerhub-secret
 
   replicas: 1
   selector:
