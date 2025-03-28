@@ -1,0 +1,14 @@
+# Ignore files with actual secrets
+*-secret-final.yaml
+*-secret-secure.yaml
+
+# Ignore local environment files
+.env
+.env.local
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db 
