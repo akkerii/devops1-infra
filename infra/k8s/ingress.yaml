@@ -1,21 +1,36 @@
-
- kind: Ingress
- metadata:
-   name: ingress-srv
-   namespace: auth
-   annotations:
-     kubernetes.io/ingress.class: alb
-     alb.ingress.kubernetes.io/scheme: internet-facing
-     alb.ingress.kubernetes.io/target-type: ip
-     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
- spec:
-   rules:
-     - http:
-         paths:
-           - path: /api/auth(/|$)(.*)
-             pathType: Prefix
-             backend:
-               service:
-                 name: auth-svc
-                 port:
-                   number: 3005
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-srv
+  namespace: auth
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
+    alb.ingress.kubernetes.io/healthcheck-path: /api/auth/health
+    alb.ingress.kubernetes.io/success-codes: "200,404"
+    alb.ingress.kubernetes.io/group.name: "auth-group"
+spec:
+  rules:
+    # Rule with the specific ALB hostname
+    - host: a5e66a032b4894750be7336114e7a070-595a904782b42ceb.elb.us-east-1.amazonaws.com
+      http:
+        paths:
+          - path: /api/auth(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: auth-svc
+                port:
+                  number: 3005
+    # Default rule without host for direct IP access
+    - http:
+        paths:
+          - path: /api/auth(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: auth-svc
+                port:
+                  number: 3005
